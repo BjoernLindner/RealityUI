@@ -90,6 +90,8 @@ struct ARViewContainer: UIViewRepresentable {
         case .rotation:
             ruiModel = RotationPlane(turnAxis: [0, 0, 1])
             ruiModel.scale = .one * 2
+        case .text:
+            ruiModel = RUIText(with: "Test", color: .blue)
         }
         ruiModel.name = "ruiReplace"
         worldAnchor.addChild(ruiModel)
