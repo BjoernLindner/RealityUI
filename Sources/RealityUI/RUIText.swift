@@ -204,11 +204,25 @@ public extension HasText {
             alignment: self.textComponent.alignment,
             lineBreakMode: self.textComponent.lineBreakMode
         )
+        
+        if #available(iOS 15.0, *) {
+            var mats = PhysicallyBasedMaterial()
+            mats.baseColor = .init(tint: .black)
+            mats.sheen = .init(tint: .black)
+            mats.emissiveColor = .init(color: self.textComponent.color)
+            mats.emissiveIntensity = 2
+            self.textModel = ModelComponent(
+                mesh: textMesh,
+                materials: [mats]
+            )
+        } else {
+            var mats = SimpleMaterial(color: self.textComponent.color, isMetallic: false)
+            self.textModel = ModelComponent(
+                mesh: textMesh,
+                materials: [mats]
+            )
+        }
 
-        self.textModel = ModelComponent(
-            mesh: textMesh,
-            materials: [SimpleMaterial(color: self.textComponent.color, isMetallic: false)]
-        )
         self.getModel(part: .textEntity)?.model = self.textModel
         guard let textModel = self.textModel else {
             return
